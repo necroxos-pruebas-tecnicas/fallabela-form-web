@@ -1,0 +1,14 @@
+<mat-card class="form-card" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>{{ name }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="form-description-card">
+    <p>{{ description }}</p>
+  </mat-card-content>
+  <mat-card-footer class="form-card-footer">
+    <mat-chip-set aria-label="redirection">
+      <mat-chip (click)="goToPage('forms')">Responder</mat-chip>
+      <mat-chip (click)="goToPage('forms')">Resumen</mat-chip>
+    </mat-chip-set>
+  </mat-card-footer>
+</mat-card>
