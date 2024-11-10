@@ -1,0 +1,43 @@
+<h1>{{ formName }}</h1>
+<p>{{ formDescription }}</p>
+<hr />
+
+@if (showForm) {
+<form #myForm="ngForm" class="form-response" [formGroup]="form" (ngSubmit)="onSubmit()">
+  @for (field of formFields; track field) { @switch (field.type) { @case
+  (["text", "email"].includes(field.type) ? field.type : "") {
+  <app-input-form
+    [label]="field.label"
+    [type]="field.type"
+    [required]="field.required"
+    [control]="getControl(field.name)"
+  ></app-input-form>
+  } @case ("textarea") {
+  <app-textarea-form
+    [label]="field.label"
+    [type]="field.type"
+    [required]="field.required"
+    [control]="getControl(field.name)"
+  ></app-textarea-form>
+  } @case ("select") {
+  <app-select-form
+    [label]="field.label"
+    [values]="field.values"
+    [required]="field.required"
+    [control]="getControl(field.name)"
+  ></app-select-form>
+  } @case ("date") {
+  <app-date-form
+    [label]="field.label"
+    [required]="field.required"
+    [control]="getControl(field.name)"
+  ></app-date-form>
+  } @default {
+  <p>El tipo de input no se ha implementado.</p>
+  } } }
+
+  <button mat-stroked-button="submit">Enviar</button>
+</form>
+} @else {
+<p>Cargando...</p>
+}
