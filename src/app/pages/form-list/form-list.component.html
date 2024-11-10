@@ -1,0 +1,23 @@
+<h1>Lista de Formularios</h1>
+<hr />
+
+<app-search-form
+  [placeHolder]="'Buscar formulario'"
+  (searchAction)="searchForm($event)"
+></app-search-form>
+
+@if (searching) {
+<span>Cargando...</span>
+} @if (formList.length) {
+<mat-grid-list [cols]="colToUse" [rowHeight]="heightToUse">
+  @for (form of formList; track form) {
+  <mat-grid-tile>
+    <app-card-form
+      [name]="form.name"
+      [description]="form.description"
+      [id]="form.id!"
+    ></app-card-form>
+  </mat-grid-tile>
+  }
+</mat-grid-list>
+}

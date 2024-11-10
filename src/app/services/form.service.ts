@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { HttpService } from './http.service';
@@ -28,6 +28,11 @@ export class FormService {
     return this.httpService
       .post(`${this.apiUrl}/form-answers`, body)
       .pipe(catchError(this._handleError));
+  }
+
+  searchForm(value: string): Observable<IForm[]> {
+    const options = new HttpParams().set('value', value);
+    return this.httpService.get(`${this.apiUrl}/forms`, options)
   }
 
   private _handleError(error: HttpErrorResponse) {
