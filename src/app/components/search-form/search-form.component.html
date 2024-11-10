@@ -1,0 +1,6 @@
+<mat-form-field>
+  <input matInput type="search" [placeholder]="placeHolder" (keyup)="handleKeyup($event)" [(ngModel)]="searchText" />
+  <button matSuffix mat-icon-button aria-label="Search" (click)="emit()">
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-form-field>
