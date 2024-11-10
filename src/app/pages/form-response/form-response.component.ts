@@ -2,7 +2,7 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 
 import { Component, OnInit, ViewChild, viewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   FormBuilder,
   FormControl,
@@ -51,7 +51,8 @@ export class FormResponseComponent implements OnInit {
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly formService: FormService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private router: Router,
   ) {
     this.form = this.fb.group({});
   }
@@ -61,12 +62,13 @@ export class FormResponseComponent implements OnInit {
       const { id } = params;
       this.formService.getForm(id).subscribe({
         next: (form: IForm) => this.createForm(form),
-        error: () => Swal.fire({
-          icon: "error",
-          title: "Hubo un error en conseguir el formulario",
-          confirmButtonColor: "#b81414",
-          confirmButtonText: "ok",
-        }),
+        error: () =>
+          Swal.fire({
+            icon: 'error',
+            title: 'Hubo un error en conseguir el formulario',
+            confirmButtonColor: '#b81414',
+            confirmButtonText: 'ok',
+          }),
       });
     });
   }
@@ -99,27 +101,33 @@ export class FormResponseComponent implements OnInit {
     }));
 
     this.formService.submitForm({ answers }).subscribe({
-      next: () =>
-        Swal.fire({
-          text: 'Respuestas guardadas',
-          icon: 'success',
-          confirmButtonColor: "#105093",
-          confirmButtonText: "ok",
-        }).then(() => {
-          this.form.reset();
-          this.myForm.resetForm();
-        }),
-      error: () => Swal.fire({
-        icon: "error",
-        title: "No se pudieron guardar sus respuestas...",
-        confirmButtonColor: "#b81414",
-        confirmButtonText: "ok",
-      }),
+      next: () => this.onSubmitSuccess(),
+      error: () => this.onSubmitError(),
     });
   }
 
   getControl(field: string) {
     return this.form.get(field) as FormControl;
+  }
+
+  private onSubmitSuccess() {
+    Swal.fire({
+      text: 'Respuestas guardadas',
+      icon: 'success',
+      confirmButtonColor: '#105093',
+      confirmButtonText: 'ok',
+    }).then(() => {
+      this.router.navigate(['']);
+    });
+  }
+
+  private onSubmitError() {
+    Swal.fire({
+      icon: 'error',
+      title: 'No se pudieron guardar sus respuestas...',
+      confirmButtonColor: '#b81414',
+      confirmButtonText: 'ok',
+    });
   }
 
   private computeValidators(field: IField) {
