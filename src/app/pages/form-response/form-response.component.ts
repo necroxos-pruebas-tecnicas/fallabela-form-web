@@ -61,7 +61,7 @@ export class FormResponseComponent implements OnInit {
       const { id } = params;
       this.formService.getForm(id).subscribe({
         next: (form: IForm) => this.createForm(form),
-        error: (err) => Swal.fire({
+        error: () => Swal.fire({
           icon: "error",
           title: "Hubo un error en conseguir el formulario",
           confirmButtonColor: "#b81414",

@@ -3,7 +3,12 @@
 <hr />
 
 @if (showForm) {
-<form #myForm="ngForm" class="form-response" [formGroup]="form" (ngSubmit)="onSubmit()">
+<form
+  #myForm="ngForm"
+  class="form-response"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
   @for (field of formFields; track field) { @switch (field.type) { @case
   (["text", "email"].includes(field.type) ? field.type : "") {
   <app-input-form
